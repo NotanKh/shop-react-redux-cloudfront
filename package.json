@@ -1,5 +1,5 @@
 {
-  "name": "my-store-app",
+  "name": "ankh-shop-rrcf",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -10,7 +10,15 @@
     "test:ui": "vitest --ui",
     "test:coverage": "vitest run --coverage",
     "lint": "eslint --ignore-path .gitignore --fix src",
-    "prettier": "prettier src --write"
+    "prettier": "prettier src --write",
+
+    "client:deploy:s3": "sls client deploy --no-config-change --no-policy-change --no-cors-change",
+    "client:build:deploy:s3": "npm run build && npm run client:deploy:s3",
+    "client:build:deploy:s3:nc": "npm run build && npm run client:deploy:s3 -- --no-confirm",
+    "cloudfront:init": "sls deploy",
+    "cloudfront:invalidateCache": "sls invalidateCloudFrontCache",
+    "cloudfront:deploy": "npm run client:build:deploy:s3:nc && npm run cloudfront:invalidateCache",
+    "serverless:remove": "sls remove"
   },
   "dependencies": {
     "@emotion/react": "^11.9.3",
